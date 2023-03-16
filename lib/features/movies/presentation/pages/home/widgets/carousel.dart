@@ -12,9 +12,9 @@ class Carousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NowPlayingBloc, NowPlayingState>(
-      // buildWhen: (oldState, newState) {
-      //   return oldState.nowPlaying.movies != newState.nowPlaying.movies;
-      // },
+      buildWhen: (oldState, newState) {
+        return oldState != newState;
+      },
       builder: (context, state) {
         if (state is NowPlayingLoading) {
           return LoadingWidget(

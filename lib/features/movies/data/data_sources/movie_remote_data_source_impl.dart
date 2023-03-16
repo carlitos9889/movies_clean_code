@@ -18,7 +18,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<List<MovieEntity>> popular(String page) async {
-    return await _getMovies(path: 'popular', page: page);
+    return await _getMovies(path: 'upcoming', page: page);
   }
 
   @override
@@ -46,6 +46,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
       final movies = ResApiModel.fromJson(jsonMap).results;
       return movies;
     } catch (_) {
+      print(_);
       throw ServerException();
     }
   }

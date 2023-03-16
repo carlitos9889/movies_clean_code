@@ -5,9 +5,8 @@ abstract class NowPlayingEvent extends Equatable {
 }
 
 class NowPlayingEventMovies extends NowPlayingEvent {
-  final String page;
 
-  const NowPlayingEventMovies(this.page);
+  const NowPlayingEventMovies();
   @override
-  List<Object?> get props => [page];
+  List<Object?> get props => [];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/routes_app.dart';
 import 'package:movies/theme.dart';
 
@@ -19,11 +20,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => sl<NowPlayingBloc>()
-            ..add(
-              const NowPlayingEventMovies('1'),
-            ),
+          create: (_) =>
+              sl<NowPlayingBloc>()..add(const NowPlayingEventMovies()),
         ),
+        BlocProvider(
+          create: (_) => sl<PopularBloc>()..add(const PopularEventMovies()),
+        )
       ],
       child: MaterialApp(
         title: 'Material App',

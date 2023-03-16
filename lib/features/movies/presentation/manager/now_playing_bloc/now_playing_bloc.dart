@@ -11,11 +11,17 @@ part 'now_playing_state.dart';
 
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final NowPlayingUseCase useCase;
+  int page = 0;
 
   NowPlayingBloc(this.useCase) : super(const NowPlayingInitial([])) {
     on<NowPlayingEvent>((event, emit) async {
       if (event is NowPlayingEventMovies) {
-        final failureOrMovies = await useCase(ParamPage(event.page));
+        page++;
+        if (page == 1) {
+          emit(const NowPlayingLoading([]));
+        }
+
+        final failureOrMovies = await useCase(ParamPage(page.toString()));
         failureOrMovies.fold(
           (failure) => emit(
             const NowPlayingFailure([], 'Error to Load NowPlaying'),
