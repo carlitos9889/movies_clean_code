@@ -40,6 +40,7 @@ class CarouselView extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20, bottom: 30),
       height: MediaQuery.of(context).size.height * 0.5,
       child: Swiper(
+        autoplay: true,
         itemBuilder: (_, i) => CarouselItem(movies[i]),
         itemCount: movies.length,
         viewportFraction: 0.8,
