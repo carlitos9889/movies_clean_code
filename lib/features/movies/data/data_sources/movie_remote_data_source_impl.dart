@@ -46,7 +46,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
       final movies = ResApiModel.fromJson(jsonMap).results;
       return movies;
     } catch (_) {
-      print(_);
+      print(_.toString());
       throw ServerException();
     }
   }

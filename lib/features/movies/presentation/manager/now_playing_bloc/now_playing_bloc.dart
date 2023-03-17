@@ -12,10 +12,13 @@ part 'now_playing_state.dart';
 class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   final NowPlayingUseCase useCase;
   int page = 0;
+  bool isLoading = false;
 
   NowPlayingBloc(this.useCase) : super(const NowPlayingInitial([])) {
     on<NowPlayingEvent>((event, emit) async {
       if (event is NowPlayingEventMovies) {
+        if (isLoading) return;
+        isLoading = true;
         page++;
         if (page == 1) {
           emit(const NowPlayingLoading([]));
@@ -28,6 +31,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
           ),
           (movies) => emit(NowPlayingSuccess(movies)),
         );
+        isLoading = false;
       }
     });
   }

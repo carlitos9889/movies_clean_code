@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SliderHorizontal extends StatelessWidget {
+import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
+
+class SliderHorizontal extends StatefulWidget {
   const SliderHorizontal({
     Key? key,
     required this.movies,
@@ -13,6 +16,37 @@ class SliderHorizontal extends StatelessWidget {
   final List<MovieEntity> movies;
 
   @override
+  State<SliderHorizontal> createState() => _SliderHorizontalState();
+}
+
+class _SliderHorizontalState extends State<SliderHorizontal> {
+  late PageController _controller;
+
+  @override
+  void initState() {
+    _controller = PageController(viewportFraction: 0.3, initialPage: 1);
+    _controller.addListener(() {
+      if (_controller.position.pixels >=
+          _controller.position.maxScrollExtent - 200) {
+        getMoreMovies();
+        print('Se llamo');
+      }
+    });
+    super.initState();
+  }
+
+  Future<void> getMoreMovies() async {
+    final popularBloc = context.read<PopularBloc>();
+    popularBloc.add(const PopularEventMovies());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeText = Theme.of(context).textTheme;
 
@@ -21,19 +55,18 @@ class SliderHorizontal extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(left: 30),
-          child: Text(title, style: themeText.headlineMedium),
+          child: Text(widget.title, style: themeText.headlineMedium),
         ),
         SizedBox(
           height: 180,
           child: PageView.builder(
             physics: const BouncingScrollPhysics(),
             pageSnapping: false,
-            controller: PageController(
-              viewportFraction: 0.3,
-              initialPage: 1,
-            ),
-            itemCount: movies.length,
-            itemBuilder: (_, i) => SliderHorizontalItem(movies[i]),
+            controller: _controller,
+            itemCount: widget.movies.length,
+            itemBuilder: (_, i) {
+              return SliderHorizontalItem(widget.movies[i]);
+            },
           ),
         ),
       ],
