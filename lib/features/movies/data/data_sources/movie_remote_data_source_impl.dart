@@ -18,7 +18,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<List<MovieEntity>> popular(String page) async {
-    return await _getMovies(path: 'upcoming', page: page);
+    return await _getMovies(path: 'now_playing', page: page);
   }
 
   @override
@@ -35,7 +35,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
     required String path,
     required String page,
   }) async {
-    final url = Uri.https('api.themoviedb.org', '/3/movie/$path', {
+    final url = Uri.https('api.themoviedb.org', '3/movie/$path', {
       'api_key': '99332a11f952aa0293b94e9b4b81d15f',
       'language': 'en-US',
       'page': page

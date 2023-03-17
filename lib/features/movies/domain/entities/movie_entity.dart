@@ -8,7 +8,7 @@ class MovieEntity extends Equatable {
   final String original_title;
   final String overview;
   final double popularity;
-  final String poster_path;
+  final String? poster_path;
   final String title;
   final double vote_average;
   final double vote_count;

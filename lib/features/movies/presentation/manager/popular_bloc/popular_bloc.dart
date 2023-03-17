@@ -10,23 +10,32 @@ part 'popular_state.dart';
 class PopularBloc extends Bloc<PopularEvent, PopularState> {
   final PopularUseCase useCase;
   int page = 0;
+  bool isLoading = false;
 
   PopularBloc(this.useCase) : super(const PopularInitial([])) {
     on<PopularEvent>((event, emit) async {
       if (event is PopularEventMovies) {
+        if (isLoading) return;
+        isLoading = true;
         page++;
         if (page == 1) {
           emit(const PopularLoading([]));
         }
-        final failureOrMovies = await useCase(ParamPage(page.toString()));
-        failureOrMovies.fold(
-          (l) => emit(const PopularFailure([], 'Error to Load Popular')),
-          (newMovies) {
-            if (newMovies.isNotEmpty) {
-              emit(PopularSuccess([...state.movies, ...newMovies]));
-            }
-          },
-        );
+        if (isLoading && page <= 5) {
+          final failureOrMovies = await useCase(ParamPage(page.toString()));
+          failureOrMovies.fold(
+            (l) => emit(PopularFailure(state.movies, 'Error to Load Popular')),
+            (newMovies) {
+              if (newMovies.isNotEmpty) {
+                emit(PopularSuccess([...state.movies, ...newMovies]));
+                isLoading = false;
+              } else {
+                emit(PopularSuccess(state.movies));
+                isLoading = false;
+              }
+            },
+          );
+        }
       }
     });
   }

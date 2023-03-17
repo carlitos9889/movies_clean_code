@@ -29,7 +29,6 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
       if (_controller.position.pixels >=
           _controller.position.maxScrollExtent - 200) {
         getMoreMovies();
-        print('Se llamo');
       }
     });
     super.initState();
