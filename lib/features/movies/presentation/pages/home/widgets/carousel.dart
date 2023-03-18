@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
+import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
 class Carousel extends StatelessWidget {
@@ -58,18 +59,27 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 3,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: FadeInImage(
-          height: 100,
-          placeholder: const AssetImage('assets/img.jpg'),
-          image: CachedNetworkImageProvider(
-            'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, MoviePage.routeName, arguments: movie);
+      },
+      child: Hero(
+        tag: movie.id,
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          elevation: 3,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage(
+              height: 100,
+              placeholder: const AssetImage('assets/img.jpg'),
+              image: CachedNetworkImageProvider(
+                'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
-          fit: BoxFit.cover,
         ),
       ),
     );
