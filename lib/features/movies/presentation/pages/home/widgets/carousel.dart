@@ -42,7 +42,6 @@ class CarouselView extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       child: Swiper(
         curve: Curves.ease,
-        autoplay: true,
         itemBuilder: (_, i) => CarouselItem(movies[i]),
         itemCount: movies.length,
         viewportFraction: 0.8,
