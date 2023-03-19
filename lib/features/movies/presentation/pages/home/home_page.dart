@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/movies/presentation/delegate.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/upcoming_bloc/upcoming_bloc.dart';
@@ -31,7 +32,15 @@ class HomePage extends StatelessWidget {
         title: const Text('Movies'),
         actions: [
           //TODO: Search Movies
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SearchDelegateMovie(),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
         ],
       ),
       body: SingleChildScrollView(
