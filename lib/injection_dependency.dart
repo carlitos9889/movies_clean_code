@@ -10,6 +10,7 @@ import 'package:movies/features/movies/domain/use_cases/top_rated_use_case.dart'
 import 'package:movies/features/movies/domain/use_cases/upcoming_use_case.dart';
 import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -21,6 +22,9 @@ Future<void> init() async {
   );
   sl.registerFactory<PopularBloc>(
     () => PopularBloc(sl()),
+  );
+  sl.registerFactory<TopRatedBloc>(
+    () => TopRatedBloc(sl()),
   );
 
 // Use Case

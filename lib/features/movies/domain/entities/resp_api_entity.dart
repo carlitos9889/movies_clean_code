@@ -5,7 +5,7 @@ import 'package:movies/features/movies/domain/entities/dates_entity.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class RespApiEntity extends Equatable {
-  final DatesEntity dates;
+  final DatesEntity? dates;
   final int page;
   final List<MovieEntity> results;
   final int total_pages;

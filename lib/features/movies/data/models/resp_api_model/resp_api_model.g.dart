@@ -7,7 +7,9 @@ part of 'resp_api_model.dart';
 // **************************************************************************
 
 ResApiModel _$ResApiModelFromJson(Map<String, dynamic> json) => ResApiModel(
-      dates: DatesModel.fromJson(json['dates'] as Map<String, dynamic>),
+      dates: json['dates'] == null
+          ? null
+          : DatesModel.fromJson(json['dates'] as Map<String, dynamic>),
       results: (json['results'] as List<dynamic>)
           .map((e) => MovieModel.fromJson(e as Map<String, dynamic>))
           .toList(),

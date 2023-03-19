@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 import 'package:movies/routes_app.dart';
 import 'package:movies/theme.dart';
 
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => sl<PopularBloc>()..add(const PopularEventMovies()),
-        )
+        ),
+        BlocProvider(
+          create: (_) => sl<TopRatedBloc>()..add(TopRatedEventMovies()),
+        ),
       ],
       child: MaterialApp(
         title: 'Material App',

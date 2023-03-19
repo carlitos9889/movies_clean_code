@@ -9,7 +9,7 @@ part 'resp_api_model.g.dart';
 
 @JsonSerializable()
 class ResApiModel extends RespApiEntity {
-  final DatesModel dates;
+  final DatesModel? dates;
   final List<MovieModel> results;
 
   const ResApiModel({

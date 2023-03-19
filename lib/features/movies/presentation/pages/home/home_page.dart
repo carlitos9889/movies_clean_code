@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/carousel.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/slider_horizontal.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
@@ -11,6 +12,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final popularController = PageController(
+      viewportFraction: 0.3,
+      initialPage: 1,
+    );
+    final topRatedController = PageController(
+      viewportFraction: 0.3,
+      initialPage: 1,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movies'),
@@ -37,11 +47,33 @@ class HomePage extends StatelessWidget {
                 return SliderHorizontal(
                   movies: state.movies,
                   title: 'Populars',
+                  controller: popularController,
+                  listener: () {
+                    context.read<PopularBloc>().add(const PopularEventMovies());
+                  },
                 );
               },
-            )
-
-            //  TODO: upcoming
+            ),
+            //  TODO: top_rated
+            BlocBuilder<TopRatedBloc, TopRatedState>(
+              builder: (context, state) {
+                if (state is TopRatedLoading || state is TopRatedInitial) {
+                  return const LoadingWidget(height: 200);
+                }
+                if (state is TopRatedFailure) {
+                  return Text(state.errorMsg);
+                }
+                return SliderHorizontal(
+                  movies: state.movies,
+                  title: 'TopRated',
+                  controller: topRatedController,
+                  listener: () {
+                    context.read<TopRatedBloc>().add(TopRatedEventMovies());
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 70),
           ],
         ),
       ),
