@@ -58,12 +58,17 @@ class CarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tag = '${movie.id}now_playing';
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, MoviePage.routeName, arguments: movie);
+        Navigator.pushNamed(
+          context,
+          MoviePage.routeName,
+          arguments: [movie, tag],
+        );
       },
       child: Hero(
-        tag: movie.id,
+        tag: tag,
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

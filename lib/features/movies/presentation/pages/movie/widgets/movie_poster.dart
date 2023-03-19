@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class MoviePoster extends StatelessWidget {
-  const MoviePoster(this.movie, {super.key});
+  const MoviePoster(this.movie, this.tag, {super.key});
 
   final MovieEntity movie;
+  final String tag;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class MoviePoster extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Hero(
-                      tag: movie.id,
+                      tag: tag,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: FadeInImage(

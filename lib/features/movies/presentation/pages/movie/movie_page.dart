@@ -9,7 +9,9 @@ class MoviePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movie = ModalRoute.of(context)!.settings.arguments as MovieEntity;
+    final arguments = ModalRoute.of(context)!.settings.arguments as List;
+    final movie = arguments[0] as MovieEntity;
+    final tag = arguments[1] as String;
 
     return Scaffold(
       body: CustomScrollView(
@@ -17,7 +19,7 @@ class MoviePage extends StatelessWidget {
           CustomSliverAppBar(movie),
           SliverList(
             delegate: SliverChildListDelegate([
-              MoviePoster(movie),
+              MoviePoster(movie, tag),
             ]),
           )
         ],

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 
 class SliderHorizontal extends StatefulWidget {
   const SliderHorizontal({
@@ -32,11 +33,6 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
     super.initState();
   }
 
-  // Future<void> getMoreMovies() async {
-  //   final popularBloc = context.read<PopularBloc>();
-  //   popularBloc.add(const PopularEventMovies());
-  // }
-
   @override
   void dispose() {
     widget.controller.dispose();
@@ -62,7 +58,7 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
             controller: widget.controller,
             itemCount: widget.movies.length,
             itemBuilder: (_, i) {
-              return SliderHorizontalItem(widget.movies[i]);
+              return SliderHorizontalItem(widget.movies[i], widget.title);
             },
           ),
         ),
@@ -73,22 +69,39 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
 }
 
 class SliderHorizontalItem extends StatelessWidget {
-  const SliderHorizontalItem(this.movie, {Key? key}) : super(key: key);
+  const SliderHorizontalItem(this.movie, this.title, {Key? key})
+      : super(key: key);
+
+  final String title;
 
   final MovieEntity movie;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: FadeInImage(
-          fit: BoxFit.fill,
-          placeholder: const AssetImage('assets/img.jpg'),
-          image: CachedNetworkImageProvider(
-            'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+    final tag = movie.id.toString() + title;
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          MoviePage.routeName,
+          arguments: [movie, tag],
+        );
+      },
+      child: Hero(
+        tag: tag,
+        child: Card(
+          elevation: 3,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage(
+              fit: BoxFit.fill,
+              placeholder: const AssetImage('assets/img.jpg'),
+              image: CachedNetworkImageProvider(
+                'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+              ),
+            ),
           ),
         ),
       ),
