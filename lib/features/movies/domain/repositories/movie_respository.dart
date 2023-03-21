@@ -7,4 +7,7 @@ abstract class MovieRepository {
   Future<Either<Failure, List<MovieEntity>>> popular(String page);
   Future<Either<Failure, List<MovieEntity>>> topRated(String page);
   Future<Either<Failure, List<MovieEntity>>> upComing(String page);
+  Future<Either<Failure, List<MovieEntity>>> searchMovie(String query);
+  Future<Either<Failure, List<MovieEntity>>> registerSearch();
+  Future<Either<Failure, void>> updateRegisterSearch(MovieEntity movie);
 }

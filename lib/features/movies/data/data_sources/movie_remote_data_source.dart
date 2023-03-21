@@ -5,4 +5,5 @@ abstract class MovieRemoteDataSource {
   Future<List<MovieEntity>> popular(String page);
   Future<List<MovieEntity>> topRated(String page);
   Future<List<MovieEntity>> upComing(String page);
+  Future<List<MovieEntity>> searchMovie(String query);
 }
