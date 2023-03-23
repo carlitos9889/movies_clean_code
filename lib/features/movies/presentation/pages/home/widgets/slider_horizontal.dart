@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/const_app.dart';
 
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
@@ -97,9 +98,9 @@ class SliderHorizontalItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               fit: BoxFit.fill,
-              placeholder: const AssetImage('assets/img.jpg'),
+              placeholder: AssetImage(ConstApp.placeholder),
               image: CachedNetworkImageProvider(
-                'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+                '${ConstApp.urlImage}${movie.poster_path}',
               ),
             ),
           ),

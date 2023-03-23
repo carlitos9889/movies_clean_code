@@ -36,26 +36,15 @@ class MovieRepositoryImpl implements MovieRepository {
 
   @override
   Future<Either<Failure, List<MovieEntity>>> searchMovie(String query) async {
-    return await _getMovies(() => remoteDataSource.searchMovie(query));
-  }
-
-  @override
-  Future<Either<Failure, List<MovieEntity>>> registerSearch() async {
-    try {
-      final movies = await localDataSource.registerSearch();
-      return Right(movies);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> updateRegisterSearch(MovieEntity movie) async {
-    try {
-      final nothing = await localDataSource.updateRegisterSearch(movie);
-      return Right(nothing);
-    } on CacheException {
-      return Left(CacheFailure());
+    if (query.isEmpty) {
+      try {
+        final movies = await localDataSource.historySearch();
+        return Right(movies);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
+    } else {
+      return await _getMovies(() => remoteDataSource.searchMovie(query));
     }
   }
 

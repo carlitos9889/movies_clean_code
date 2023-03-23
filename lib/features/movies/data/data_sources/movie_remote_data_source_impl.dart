@@ -42,9 +42,13 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
       final response = await client.get(url);
       final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
       final movies = ResApiModel.fromJson(jsonMap).results;
-      return movies;
+      final moviesFilter = movies
+          .where(
+            (movie) => movie.poster_path != null && movie.backdrop_path != null,
+          )
+          .toList();
+      return moviesFilter;
     } catch (_) {
-      print(_.toString());
       throw ServerException();
     }
   }
@@ -62,7 +66,13 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
       final response = await client.get(url);
       final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
       final movies = ResApiModel.fromJson(jsonMap).results;
-      return movies;
+      movies.shuffle();
+      final moviesFilter = movies
+          .where(
+            (movie) => movie.poster_path != null && movie.backdrop_path != null,
+          )
+          .toList();
+      return moviesFilter;
     } catch (_) {
       throw ServerException();
     }

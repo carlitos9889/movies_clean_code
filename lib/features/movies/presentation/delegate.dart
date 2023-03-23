@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
+import 'package:movies/features/movies/presentation/pages/home/widgets/suggestions.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
@@ -50,34 +52,7 @@ class SearchDelegateMovie extends SearchDelegate {
             return Text(state.errorMsg);
           }
           if (state is SearchSuccess) {
-            return ListView.separated(
-              itemCount: state.movies.length,
-              itemBuilder: (_, i) => ListTile(
-                title: Text(state.movies[i].title),
-                leading: Hero(
-                  tag: state.movies[i].id.toString(),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: FadeInImage(
-                      placeholder: const AssetImage('assets/img.jpg'),
-                      image: CachedNetworkImageProvider(
-                        'https://image.tmdb.org/t/p/w500${state.movies[i].poster_path}',
-                      ),
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    MoviePage.routeName,
-                    arguments: [state.movies[i], state.movies[i].id.toString()],
-                  );
-                },
-              ),
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
-              },
-            );
+            return SugestionsWidget(state.movies);
           }
           return Container();
         },

@@ -13,7 +13,7 @@ class MovieLocalDataSourceImpl extends MovieLocalDataSource {
   MovieLocalDataSourceImpl(this.preferences);
 
   @override
-  Future<List<MovieEntity>> registerSearch() async {
+  Future<List<MovieEntity>> historySearch() async {
     try {
       final dataCache = preferences.getString('movies');
       if (dataCache != null) {
@@ -28,9 +28,9 @@ class MovieLocalDataSourceImpl extends MovieLocalDataSource {
   }
 
   @override
-  Future<void> updateRegisterSearch(MovieEntity entity) async {
+  Future<void> addMovieToHistorySearch(MovieEntity entity) async {
     try {
-      final movies = await registerSearch();
+      final movies = await historySearch();
       movies.insert(0, entity);
       if (movies.length >= 7) {
         movies.removeLast();

@@ -21,7 +21,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
         if (page == 1) {
           emit(const PopularLoading([]));
         }
-        if (isLoading && page <= 5) {
+        if (isLoading && page < 500) {
           final failureOrMovies = await useCase(ParamPage(page.toString()));
           failureOrMovies.fold(
             (l) => emit(PopularFailure(state.movies, 'Error to Load Popular')),

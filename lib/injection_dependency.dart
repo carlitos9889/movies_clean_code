@@ -8,11 +8,9 @@ import 'package:movies/features/movies/data/repositories/movie_respository_impl.
 import 'package:movies/features/movies/domain/repositories/movie_respository.dart';
 import 'package:movies/features/movies/domain/use_cases/now_playing_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/popular_use_case.dart';
-import 'package:movies/features/movies/domain/use_cases/register_search_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/search_movie_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/top_rated_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/upcoming_use_case.dart';
-import 'package:movies/features/movies/domain/use_cases/update_register_search_use_case.dart';
 import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
@@ -55,12 +53,6 @@ Future<void> init() async {
     () => UpComingUseCase(sl()),
   );
 
-  sl.registerLazySingleton<UpdateRegisterSearchUseCase>(
-    () => UpdateRegisterSearchUseCase(sl()),
-  );
-  sl.registerLazySingleton<RegisterSearchUseCase>(
-    () => RegisterSearchUseCase(sl()),
-  );
   sl.registerLazySingleton<SearchMovieUseCase>(
     () => SearchMovieUseCase(sl()),
   );

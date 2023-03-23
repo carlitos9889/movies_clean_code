@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class MoviePoster extends StatelessWidget {
@@ -30,10 +31,10 @@ class MoviePoster extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: FadeInImage(
-                          placeholder: const AssetImage('assets/gif.gif'),
+                          placeholder: AssetImage(ConstApp.placeholder),
                           fadeInDuration: const Duration(milliseconds: 150),
                           image: CachedNetworkImageProvider(
-                            'https://image.tmdb.org/t/p/w500${movie.poster_path}',
+                            '${ConstApp.urlImage}${movie.poster_path}',
                           ),
                           height: 150,
                           fit: BoxFit.cover,

@@ -21,7 +21,7 @@ class UpcomingBloc extends Bloc<UpcomingEvent, UpcomingState> {
         if (page == 1) {
           emit(const UpComingLoading([]));
         }
-        if (isLoading && page <= 5) {
+        if (isLoading && page < 500) {
           final failureOrMovies = await useCase(ParamPage(page.toString()));
           failureOrMovies.fold(
             (l) => emit(UpComingFailure(state.movies, 'Error to Load Popular')),

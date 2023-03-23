@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
@@ -17,10 +18,10 @@ class CustomSliverAppBar extends StatelessWidget {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: FadeInImage(
-          placeholder: const AssetImage('assets/gif.gif'),
+          placeholder: AssetImage(ConstApp.placeholderGig),
           fadeInDuration: const Duration(milliseconds: 150),
           image: CachedNetworkImageProvider(
-            'https://image.tmdb.org/t/p/w500${movie.backdrop_path}',
+            '${ConstApp.urlImage}${movie.backdrop_path}',
           ),
           fit: BoxFit.cover,
         ),
