@@ -1,6 +1,6 @@
-import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/data/models/movie_model/movie_model.dart';
 
 abstract class MovieLocalDataSource {
-  Future<List<MovieEntity>> historySearch();
-  Future<void> addMovieToHistorySearch(MovieEntity movie);
+  Future<List<MovieModel>> historySearch();
+  Future<void> addMovieToHistorySearch(MovieModel movie);
 }

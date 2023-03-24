@@ -1,9 +1,9 @@
-import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/data/models/movie_model/movie_model.dart';
 
 abstract class MovieRemoteDataSource {
-  Future<List<MovieEntity>> nowPlaying(String page);
-  Future<List<MovieEntity>> popular(String page);
-  Future<List<MovieEntity>> topRated(String page);
-  Future<List<MovieEntity>> upComing(String page);
-  Future<List<MovieEntity>> searchMovie(String query);
+  Future<List<MovieModel>> nowPlaying(String page);
+  Future<List<MovieModel>> popular(String page);
+  Future<List<MovieModel>> topRated(String page);
+  Future<List<MovieModel>> upComing(String page);
+  Future<List<MovieModel>> searchMovie(String query);
 }
