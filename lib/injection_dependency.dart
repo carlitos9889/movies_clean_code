@@ -6,6 +6,7 @@ import 'package:movies/features/movies/data/data_sources/movie_remote_data_sourc
 import 'package:movies/features/movies/data/data_sources/movie_remote_data_source_impl.dart';
 import 'package:movies/features/movies/data/repositories/movie_respository_impl.dart';
 import 'package:movies/features/movies/domain/repositories/movie_respository.dart';
+import 'package:movies/features/movies/domain/use_cases/add_movie_to_history_search_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/now_playing_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/popular_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/search_movie_use_case.dart';
@@ -36,7 +37,7 @@ Future<void> init() async {
     () => UpcomingBloc(sl()),
   );
   sl.registerFactory<SearchBloc>(
-    () => SearchBloc(sl()),
+    () => SearchBloc(sl(), sl()),
   );
 
 // Use Case
@@ -51,6 +52,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<UpComingUseCase>(
     () => UpComingUseCase(sl()),
+  );
+  sl.registerLazySingleton<AddMovieToHistorySearchUseCase>(
+    () => AddMovieToHistorySearchUseCase(sl()),
   );
 
   sl.registerLazySingleton<SearchMovieUseCase>(

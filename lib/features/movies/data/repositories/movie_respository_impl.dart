@@ -3,6 +3,7 @@ import 'package:movies/core/error/error.dart';
 import 'package:movies/core/error/exception.dart';
 import 'package:movies/features/movies/data/data_sources/movie_local_data_source.dart';
 import 'package:movies/features/movies/data/data_sources/movie_remote_data_source.dart';
+import 'package:movies/features/movies/data/models/movie_model/movie_model.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies/features/movies/domain/repositories/movie_respository.dart';
 
@@ -56,6 +57,29 @@ class MovieRepositoryImpl implements MovieRepository {
       return Right(movies);
     } on ServerException {
       return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addMovieToHistorySearch(
+    MovieEntity movie,
+  ) async {
+    try {
+      final movieModel = MovieModel(
+        backdrop_path: movie.backdrop_path,
+        id: movie.id,
+        original_title: movie.original_title,
+        overview: movie.overview,
+        popularity: movie.popularity,
+        poster_path: movie.poster_path,
+        title: movie.title,
+        vote_average: movie.vote_average,
+        vote_count: movie.vote_count,
+      );
+      final r = await localDataSource.addMovieToHistorySearch(movieModel);
+      return Right(r);
+    } on CacheException {
+      return Left(CacheFailure());
     }
   }
 }

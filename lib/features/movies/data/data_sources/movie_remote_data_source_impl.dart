@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:movies/core/error/exception.dart';
 import 'package:movies/features/movies/data/data_sources/movie_remote_data_source.dart';
 import 'package:movies/features/movies/data/models/resp_api_model/resp_api_model.dart';
-import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   final http.Client client;

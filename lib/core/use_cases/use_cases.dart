@@ -29,10 +29,10 @@ class ParamQuery extends Equatable {
   List<Object?> get props => [query];
 }
 
-class ParamMovieEntity extends Equatable {
+class ParamsMovieEntity extends Equatable {
   final MovieEntity movie;
 
-  const ParamMovieEntity(this.movie);
+  const ParamsMovieEntity(this.movie);
 
   @override
   List<Object?> get props => [movie];

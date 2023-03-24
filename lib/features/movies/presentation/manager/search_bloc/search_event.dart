@@ -15,3 +15,12 @@ class SearchEventMovies extends SearchEvent {
   @override
   List<Object> get props => [query];
 }
+
+class SearchEventAddMovieToHistorySearch extends SearchEvent {
+  final MovieEntity movie;
+
+  const SearchEventAddMovieToHistorySearch(this.movie);
+
+  @override
+  List<Object> get props => [movie];
+}

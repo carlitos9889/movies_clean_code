@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 
 class SugestionsWidget extends StatelessWidget {
@@ -41,6 +43,8 @@ class SugestionItemWidget extends StatelessWidget {
         ),
       ),
       onTap: () {
+        final searchBloc = context.read<SearchBloc>();
+        searchBloc.add(SearchEventAddMovieToHistorySearch(movie));
         Navigator.pushNamed(
           context,
           MoviePage.routeName,

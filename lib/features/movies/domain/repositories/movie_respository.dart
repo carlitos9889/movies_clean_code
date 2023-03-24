@@ -8,4 +8,5 @@ abstract class MovieRepository {
   Future<Either<Failure, List<MovieEntity>>> topRated(String page);
   Future<Either<Failure, List<MovieEntity>>> upComing(String page);
   Future<Either<Failure, List<MovieEntity>>> searchMovie(String query);
+  Future<Either<Failure, void>> addMovieToHistorySearch(MovieEntity movie);
 }

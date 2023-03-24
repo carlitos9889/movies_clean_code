@@ -32,3 +32,13 @@ class SearchFailure extends SearchState {
   @override
   List<Object> get props => [errorMsg];
 }
+
+class SearchAddMovieToHistorySuccess extends SearchState {}
+
+class SearchAddMovieToHistoryFailure extends SearchState {
+  final String errorMsg;
+
+  const SearchAddMovieToHistoryFailure(this.errorMsg);
+  @override
+  List<Object> get props => [errorMsg];
+}
