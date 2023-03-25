@@ -31,7 +31,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Movies'),
         actions: [
-          //TODO: Search Movies
           IconButton(
             onPressed: () {
               showSearch(

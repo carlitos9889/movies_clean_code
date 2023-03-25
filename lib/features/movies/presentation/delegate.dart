@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/suggestions.dart';
-import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
 class SearchDelegateMovie extends SearchDelegate {
