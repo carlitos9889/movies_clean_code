@@ -1,10 +1,6 @@
 part of 'upcoming_bloc.dart';
 
-abstract class UpcomingEvent extends Equatable {
-  const UpcomingEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+class UpcomingEvent with _$UpcomingEvent {
+  const factory UpcomingEvent.movies() = _Movies;
 }
-
-class UpcomingEventMovies extends UpcomingEvent {}

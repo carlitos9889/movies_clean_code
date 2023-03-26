@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
@@ -25,16 +25,16 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) =>
-              sl<NowPlayingBloc>()..add(const NowPlayingEventMovies()),
+              sl<NowplayingBloc>()..add(const NowplayingEvent.movies()),
         ),
         BlocProvider(
-          create: (_) => sl<PopularBloc>()..add(const PopularEventMovies()),
+          create: (_) => sl<PopularBloc>()..add(const PopularEvent.movies()),
         ),
         BlocProvider(
-          create: (_) => sl<TopRatedBloc>()..add(TopRatedEventMovies()),
+          create: (_) => sl<TopRatedBloc>()..add(const TopRatedEvent.movies()),
         ),
         BlocProvider(
-          create: (_) => sl<UpcomingBloc>()..add(UpcomingEventMovies()),
+          create: (_) => sl<UpcomingBloc>()..add(const UpcomingEvent.movies()),
         ),
         BlocProvider(create: (_) => sl<SearchBloc>())
       ],

@@ -59,6 +59,7 @@ class MoviePoster extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(left: 10),
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   movie.original_title,

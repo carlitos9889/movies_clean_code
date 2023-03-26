@@ -43,8 +43,7 @@ class SugestionItemWidget extends StatelessWidget {
         ),
       ),
       onTap: () {
-        final searchBloc = context.read<SearchBloc>();
-        searchBloc.add(SearchEventAddMovieToHistorySearch(movie));
+        context.read<SearchBloc>().add(SearchEvent.addToHistory(movie: movie));
         Navigator.pushNamed(
           context,
           MoviePage.routeName,

@@ -48,67 +48,49 @@ class HomePage extends StatelessWidget {
           children: [
             const Carousel(),
             BlocBuilder<PopularBloc, PopularState>(
-              buildWhen: (previous, current) {
-                return previous.movies != current.movies;
-              },
-              builder: (context, state) {
-                if (state is PopularLoading || state is PopularInitial) {
-                  return const LoadingWidget(height: 200);
-                }
-                if (state is PopularFailure) {
-                  return Text(state.errorMsg);
-                }
-                return SliderHorizontal(
-                  movies: state.movies,
-                  title: 'Populars',
+              buildWhen: (p, c) => p.movies != c.movies,
+              builder: (context, state) => state.when(
+                loading: (_) => const LoadingWidget(height: 200),
+                failure: (_, errorMsg) => Text(errorMsg),
+                success: (movies) => SliderHorizontal(
+                  movies: movies,
+                  title: 'Popular',
                   controller: popularController,
-                  listener: () {
-                    context.read<PopularBloc>().add(const PopularEventMovies());
-                  },
-                );
-              },
+                  listener: () => context
+                      .read<PopularBloc>()
+                      .add(const PopularEvent.movies()),
+                ),
+              ),
             ),
             BlocBuilder<TopRatedBloc, TopRatedState>(
-              buildWhen: (previous, current) {
-                return previous.movies != current.movies;
-              },
-              builder: (context, state) {
-                if (state is TopRatedLoading || state is TopRatedInitial) {
-                  return const LoadingWidget(height: 200);
-                }
-                if (state is TopRatedFailure) {
-                  return Text(state.errorMsg);
-                }
-                return SliderHorizontal(
-                  movies: state.movies,
+              buildWhen: (p, c) => p.movies != c.movies,
+              builder: (context, state) => state.when(
+                loading: (_) => const LoadingWidget(height: 200),
+                failure: (_, message) => Text(message),
+                success: (movies) => SliderHorizontal(
+                  movies: movies,
                   title: 'TopRated',
                   controller: topRatedController,
-                  listener: () {
-                    context.read<TopRatedBloc>().add(TopRatedEventMovies());
-                  },
-                );
-              },
+                  listener: () => context
+                      .read<TopRatedBloc>()
+                      .add(const TopRatedEvent.movies()),
+                ),
+              ),
             ),
             BlocBuilder<UpcomingBloc, UpcomingState>(
-              buildWhen: (previous, current) {
-                return previous.movies != current.movies;
-              },
-              builder: (context, state) {
-                if (state is UpcomingInitial || state is UpComingLoading) {
-                  return const LoadingWidget(height: 200);
-                }
-                if (state is UpComingFailure) {
-                  return Text(state.errorMsg);
-                }
-                return SliderHorizontal(
-                  movies: state.movies,
-                  title: 'Upcoming',
+              buildWhen: (p, c) => p.movies != c.movies,
+              builder: (context, state) => state.when(
+                loading: (_) => const LoadingWidget(height: 200),
+                failure: (_, message) => Text(message),
+                success: (movies) => SliderHorizontal(
+                  movies: movies,
+                  title: 'UpComing',
                   controller: upComingController,
-                  listener: () {
-                    context.read<UpcomingBloc>().add(UpcomingEventMovies());
-                  },
-                );
-              },
+                  listener: () => context
+                      .read<UpcomingBloc>()
+                      .add(const UpcomingEvent.movies()),
+                ),
+              ),
             ),
             const SizedBox(height: 70),
           ],

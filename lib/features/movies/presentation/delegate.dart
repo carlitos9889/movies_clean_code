@@ -36,20 +36,15 @@ class SearchDelegateMovie extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    context.read<SearchBloc>().add(SearchEventMovies(query));
+    context.read<SearchBloc>().add(SearchEvent.movies(query: query));
     return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        if (state is SearchLoading) {
-          return const LoadingWidget(height: 300);
-        }
-        if (state is SearchFailure) {
-          return Text(state.errorMsg);
-        }
-        if (state is SearchSuccess) {
-          return SugestionsWidget(state.movies);
-        }
-        return Container();
-      },
+      builder: (context, state) => state.when(
+        loading: () => const LoadingWidget(height: 300),
+        success: (movies) => SugestionsWidget(movies),
+        failure: (message) => Text(message),
+        addToHistorySuccess: () => Container(),
+        addToHistoryFailure: (message) => Text(message),
+      ),
     );
   }
 }

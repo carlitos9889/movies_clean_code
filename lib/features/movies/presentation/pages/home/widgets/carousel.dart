@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
-import 'package:movies/features/movies/presentation/manager/now_playing_bloc/now_playing_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
@@ -13,21 +13,14 @@ class Carousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NowPlayingBloc, NowPlayingState>(
-      buildWhen: (oldState, newState) {
-        return oldState != newState;
-      },
-      builder: (context, state) {
-        if (state is NowPlayingLoading) {
-          return LoadingWidget(
-            height: MediaQuery.of(context).size.height * 0.5,
-          );
-        }
-        if (state is NowPlayingFailure) {
-          return Text(state.errorMsg);
-        }
-        return CarouselView(state.movies);
-      },
+    final size = MediaQuery.of(context).size;
+    return BlocBuilder<NowplayingBloc, NowplayingState>(
+      buildWhen: (oldState, newState) => oldState != newState,
+      builder: (context, state) => state.when(
+        loading: () => LoadingWidget(height: size.height * 0.5),
+        success: (movies) => CarouselView(movies),
+        failure: (message) => Text(message),
+      ),
     );
   }
 }

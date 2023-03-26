@@ -1,38 +1,15 @@
 part of 'upcoming_bloc.dart';
 
-abstract class UpcomingState extends Equatable {
-  final List<MovieEntity> movies;
-  const UpcomingState(this.movies);
-
-  @override
-  List<Object> get props => [movies];
-}
-
-class UpcomingInitial extends UpcomingState {
-  const UpcomingInitial(super.movies);
-  @override
-  List<Object> get props => [movies];
-}
-
-class UpComingLoading extends UpcomingState {
-  const UpComingLoading(super.movies);
-  @override
-  List<Object> get props => [movies];
-}
-
-class UpComingSuccess extends UpcomingState {
-  final List<MovieEntity> newMovies;
-
-  const UpComingSuccess(this.newMovies) : super(newMovies);
-
-  @override
-  List<Object> get props => [newMovies];
-}
-
-class UpComingFailure extends UpcomingState {
-  final String errorMsg;
-  const UpComingFailure(super.movies, this.errorMsg);
-
-  @override
-  List<Object> get props => [movies, errorMsg];
+@freezed
+class UpcomingState with _$UpcomingState {
+  const factory UpcomingState.loading({
+    required List<MovieEntity> movies,
+  }) = _Loading;
+  const factory UpcomingState.success({
+    required List<MovieEntity> movies,
+  }) = _Success;
+  const factory UpcomingState.failure({
+    required List<MovieEntity> movies,
+    required String errorMsg,
+  }) = _Failure;
 }
