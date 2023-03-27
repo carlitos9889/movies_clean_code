@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => sl<UpcomingBloc>()..add(const UpcomingEvent.movies()),
         ),
-        BlocProvider(create: (_) => sl<SearchBloc>())
+        BlocProvider(create: (_) => sl<SearchBloc>()),
+        BlocProvider(create: (_) => sl<CastBloc>()),
       ],
       child: MaterialApp(
         title: 'Material App',

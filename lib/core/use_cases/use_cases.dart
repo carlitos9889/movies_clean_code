@@ -37,3 +37,11 @@ class ParamsMovieEntity extends Equatable {
   @override
   List<Object?> get props => [movie];
 }
+
+class ParamMovieID extends Equatable {
+  final String id;
+
+  const ParamMovieID(this.id);
+  @override
+  List<Object?> get props => [id];
+}

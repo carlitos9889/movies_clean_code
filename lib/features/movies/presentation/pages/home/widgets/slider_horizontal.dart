@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/const_app.dart';
 
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 
 class SliderHorizontal extends StatefulWidget {
@@ -82,6 +84,7 @@ class SliderHorizontalItem extends StatelessWidget {
     final tag = movie.id.toString() + title;
     return GestureDetector(
       onTap: () {
+        context.read<CastBloc>().add(CastEvent.cast(movie.id.toString()));
         Navigator.pushNamed(
           context,
           MoviePage.routeName,

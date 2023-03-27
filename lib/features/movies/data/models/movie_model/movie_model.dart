@@ -23,4 +23,16 @@ class MovieModel extends MovieEntity {
       _$MovieModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieModelToJson(this);
+
+  factory MovieModel.fromMovieEntity(MovieEntity movie) => MovieModel(
+        backdrop_path: movie.backdrop_path,
+        id: movie.id,
+        original_title: movie.original_title,
+        overview: movie.overview,
+        popularity: movie.popularity,
+        poster_path: movie.poster_path,
+        title: movie.title,
+        vote_average: movie.vote_average,
+        vote_count: movie.vote_count,
+      );
 }

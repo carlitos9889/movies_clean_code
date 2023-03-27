@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies/features/movies/presentation/pages/movie/widgets/custom_sliver_app_bar.dart';
 import 'package:movies/features/movies/presentation/pages/movie/widgets/movie_poster.dart';
+import 'package:movies/features/movies/presentation/pages/movie/widgets/slider_horizontal_cast.dart';
 
 class MoviePage extends StatelessWidget {
   const MoviePage({Key? key}) : super(key: key);
@@ -20,6 +21,7 @@ class MoviePage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               MoviePoster(movie, tag),
+              const SliderHorizontalCast(),
             ]),
           )
         ],

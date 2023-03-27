@@ -7,11 +7,13 @@ import 'package:movies/features/movies/data/data_sources/movie_remote_data_sourc
 import 'package:movies/features/movies/data/repositories/movie_respository_impl.dart';
 import 'package:movies/features/movies/domain/repositories/movie_respository.dart';
 import 'package:movies/features/movies/domain/use_cases/add_movie_to_history_search_use_case.dart';
+import 'package:movies/features/movies/domain/use_cases/cast_movie_x_id_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/now_playing_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/popular_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/search_movie_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/top_rated_use_case.dart';
 import 'package:movies/features/movies/domain/use_cases/upcoming_use_case.dart';
+import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
@@ -39,10 +41,16 @@ Future<void> init() async {
   sl.registerFactory<SearchBloc>(
     () => SearchBloc(sl(), sl()),
   );
+  sl.registerFactory<CastBloc>(
+    () => CastBloc(sl()),
+  );
 
 // Use Case
   sl.registerLazySingleton<NowPlayingUseCase>(
     () => NowPlayingUseCase(sl()),
+  );
+  sl.registerLazySingleton(
+    () => CastMovieXidUseCase(sl()),
   );
   sl.registerLazySingleton<PopularUseCase>(
     () => PopularUseCase(sl()),

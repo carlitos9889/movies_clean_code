@@ -8,4 +8,7 @@ class ConstApp {
   static String errorMsgUpcoming = 'Error to load upcoming';
   static String errorMsgSearch = 'Error to search movie';
   static String errorMsgAddToHistory = 'Error to add movie add hository';
+  static String errorMsgCast = 'Error to load cast';
+  // api
+  static String apiKey = '99332a11f952aa0293b94e9b4b81d15f';
 }

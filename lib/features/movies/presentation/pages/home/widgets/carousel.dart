@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
+import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
@@ -55,6 +56,7 @@ class CarouselItem extends StatelessWidget {
     final tag = '${movie.id}now_playing';
     return GestureDetector(
       onTap: () {
+        context.read<CastBloc>().add(CastEvent.cast(movie.id.toString()));
         Navigator.pushNamed(
           context,
           MoviePage.routeName,

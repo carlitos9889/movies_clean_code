@@ -81,7 +81,7 @@ class MoviePoster extends StatelessWidget {
                     style: textTheme.titleLarge,
                   )
                 ]),
-              )
+              ),
             ],
           ),
         ),
