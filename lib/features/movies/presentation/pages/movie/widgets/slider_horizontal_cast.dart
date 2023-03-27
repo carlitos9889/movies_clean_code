@@ -61,6 +61,7 @@ class SliderHorizontalCastViewItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               fit: BoxFit.cover,
+              height: 180,
               placeholder: AssetImage(ConstApp.placeholder),
               image: CachedNetworkImageProvider(
                 '${ConstApp.urlImage}${actor.profile_path}',
