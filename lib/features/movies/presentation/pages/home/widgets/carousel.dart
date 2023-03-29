@@ -8,6 +8,7 @@ import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.
 import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class Carousel extends StatelessWidget {
   const Carousel({Key? key}) : super(key: key);
@@ -26,22 +27,81 @@ class Carousel extends StatelessWidget {
   }
 }
 
-class CarouselView extends StatelessWidget {
+class CarouselView extends StatefulWidget {
   const CarouselView(this.movies, {Key? key}) : super(key: key);
   final List<MovieEntity> movies;
 
   @override
+  State<CarouselView> createState() => _CarouselViewState();
+}
+
+class _CarouselViewState extends State<CarouselView> {
+  PaletteGenerator? paletteGenerator;
+  Color? dominante = Colors.white;
+  Color? vibrant = Colors.white;
+
+  @override
+  void initState() {
+    getImagePalette(CachedNetworkImageProvider(
+      '${ConstApp.urlImage}${widget.movies[0].poster_path}',
+    ));
+
+    super.initState();
+  }
+
+  Future<void> getImagePalette(ImageProvider imageProvider) async {
+    paletteGenerator = await PaletteGenerator.fromImageProvider(imageProvider);
+    setState(() {
+      if (paletteGenerator != null) {
+        dominante = paletteGenerator!.dominantColor != null
+            ? paletteGenerator!.dominantColor!.color
+            : Colors.white;
+        vibrant = paletteGenerator!.vibrantColor != null
+            ? paletteGenerator!.vibrantColor!.color
+            : Colors.white;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20, bottom: 30),
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Swiper(
-        curve: Curves.ease,
-        itemBuilder: (_, i) => CarouselItem(movies[i]),
-        itemCount: movies.length,
-        viewportFraction: 0.8,
-        scale: 0.9,
-      ),
+    return Stack(
+      children: [
+        AnimatedContainer(
+          duration: const Duration(seconds: 2),
+          curve: Curves.easeInOut,
+          height: MediaQuery.of(context).size.height * 0.55,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.transparent,
+                dominante ?? Colors.white,
+                vibrant ?? Colors.white,
+              ],
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 20, bottom: 30),
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Swiper(
+            curve: Curves.ease,
+            onIndexChanged: (i) {
+              setState(() {
+                getImagePalette(CachedNetworkImageProvider(
+                  '${ConstApp.urlImage}${widget.movies[i].poster_path}',
+                ));
+              });
+            },
+            itemBuilder: (_, i) => CarouselItem(widget.movies[i]),
+            itemCount: widget.movies.length,
+            viewportFraction: 0.8,
+            scale: 0.9,
+          ),
+        ),
+      ],
     );
   }
 }
