@@ -137,7 +137,7 @@ class CarouselItem extends StatelessWidget {
               image: CachedNetworkImageProvider(
                 '${ConstApp.urlImage}${movie.poster_path}',
               ),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
         ),
