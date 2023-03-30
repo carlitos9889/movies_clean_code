@@ -17,7 +17,11 @@ class LoadingWidget extends StatelessWidget {
       height: height,
       child: Center(
         child: Platform.isAndroid
-            ? const CircularProgressIndicator()
+            ? const SizedBox(
+                width: 10,
+                height: 10,
+                child: CircularProgressIndicator(color: Colors.grey),
+              )
             : const CupertinoActivityIndicator(),
       ),
     );

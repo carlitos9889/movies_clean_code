@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:movies/features/movies/presentation/manager/popular_bloc/popular
 import 'package:movies/features/movies/presentation/manager/search_bloc/search_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/upcoming_bloc/upcoming_bloc.dart';
+import 'package:movies/features/movies/presentation/pages/home/home_page.dart';
 import 'package:movies/routes_app.dart';
 import 'package:movies/theme.dart';
 
@@ -45,8 +47,15 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         theme: ThemeApp.themeData,
-        initialRoute: RoutesApp.initialRoute,
         routes: RoutesApp.router,
+        home: AnimatedSplashScreen(
+          splash: 'assets/icons/icon.png',
+          nextScreen: const HomePage(),
+          duration: 3000,
+          nextRoute: RoutesApp.initialRoute,
+          splashTransition: SplashTransition.fadeTransition,
+          backgroundColor: Colors.white,
+        ),
       ),
     );
   }
