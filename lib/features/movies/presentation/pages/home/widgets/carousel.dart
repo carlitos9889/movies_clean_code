@@ -49,7 +49,7 @@ class _CarouselState extends State<Carousel> {
         AnimatedContainer(
           duration: const Duration(seconds: 2),
           curve: Curves.easeInOut,
-          height: MediaQuery.of(context).size.height * 0.55,
+          height: MediaQuery.of(context).size.height * 0.4,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
@@ -62,26 +62,27 @@ class _CarouselState extends State<Carousel> {
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 30),
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: Swiper(
-            curve: Curves.ease,
-            onIndexChanged: (i) {
-              setState(() {
-                getImagePalette(CachedNetworkImageProvider(
-                  '${ConstApp.urlImage}${widget.movies[i].poster_path}',
-                ));
-              });
-            },
-            itemBuilder: (_, i) {
-              final movie = widget.movies[i];
-              final onTap = widget.onTap;
-              return CarouselItem(movie, onTap);
-            },
-            itemCount: widget.movies.length,
-            viewportFraction: 0.8,
-            scale: 0.9,
+        SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Swiper(
+              curve: Curves.ease,
+              onIndexChanged: (i) {
+                setState(() {
+                  getImagePalette(CachedNetworkImageProvider(
+                    '${ConstApp.urlImage}${widget.movies[i].poster_path}',
+                  ));
+                });
+              },
+              itemBuilder: (_, i) {
+                final movie = widget.movies[i];
+                final onTap = widget.onTap;
+                return CarouselItem(movie, onTap);
+              },
+              itemCount: widget.movies.length,
+              viewportFraction: 0.8,
+              scale: 0.9,
+            ),
           ),
         ),
       ],

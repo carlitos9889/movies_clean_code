@@ -42,17 +42,17 @@ class HomePage extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Movies'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: SearchDelegateMovie());
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Movies'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         showSearch(context: context, delegate: SearchDelegateMovie());
+      //       },
+      //       icon: const Icon(Icons.search),
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
