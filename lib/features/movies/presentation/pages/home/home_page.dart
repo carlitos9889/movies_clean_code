@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies/features/movies/presentation/delegate.dart';
+import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
+import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/top_rated_bloc/top_rated_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/upcoming_bloc/upcoming_bloc.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/carousel.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/slider_horizontal.dart';
+import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,16 +31,23 @@ class HomePage extends StatelessWidget {
       initialPage: 1,
     );
 
+    void onTap(MovieEntity movie, String tag) {
+      context.read<CastBloc>().add(CastEvent.cast(movie.id.toString()));
+      Navigator.pushNamed(
+        context,
+        MoviePage.routeName,
+        arguments: [movie, tag],
+      );
+    }
+
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movies'),
         actions: [
           IconButton(
             onPressed: () {
-              showSearch(
-                context: context,
-                delegate: SearchDelegateMovie(),
-              );
+              showSearch(context: context, delegate: SearchDelegateMovie());
             },
             icon: const Icon(Icons.search),
           ),
@@ -46,7 +57,14 @@ class HomePage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const Carousel(),
+            BlocBuilder<NowplayingBloc, NowplayingState>(
+              buildWhen: (oldState, newState) => oldState != newState,
+              builder: (context, state) => state.when(
+                loading: () => LoadingWidget(height: size.height * 0.5),
+                success: (movies) => Carousel(movies, onTap),
+                failure: (message) => Text(message),
+              ),
+            ),
             BlocBuilder<PopularBloc, PopularState>(
               buildWhen: (p, c) => p.movies != c.movies,
               builder: (context, state) => state.when(
@@ -54,6 +72,7 @@ class HomePage extends StatelessWidget {
                 failure: (_, errorMsg) => Text(errorMsg),
                 success: (movies) => SliderHorizontal(
                   movies: movies,
+                  onTap: onTap,
                   title: 'Popular',
                   controller: popularController,
                   listener: () => context
@@ -69,6 +88,7 @@ class HomePage extends StatelessWidget {
                 failure: (_, message) => Text(message),
                 success: (movies) => SliderHorizontal(
                   movies: movies,
+                  onTap: onTap,
                   title: 'TopRated',
                   controller: topRatedController,
                   listener: () => context
@@ -84,6 +104,7 @@ class HomePage extends StatelessWidget {
                 failure: (_, message) => Text(message),
                 success: (movies) => SliderHorizontal(
                   movies: movies,
+                  onTap: onTap,
                   title: 'UpComing',
                   controller: upComingController,
                   listener: () => context

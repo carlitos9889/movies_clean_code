@@ -1,41 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/const_app.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
-import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
-import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
-import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
-import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-class Carousel extends StatelessWidget {
-  const Carousel({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return BlocBuilder<NowplayingBloc, NowplayingState>(
-      buildWhen: (oldState, newState) => oldState != newState,
-      builder: (context, state) => state.when(
-        loading: () => LoadingWidget(height: size.height * 0.5),
-        success: (movies) => CarouselView(movies),
-        failure: (message) => Text(message),
-      ),
-    );
-  }
-}
-
-class CarouselView extends StatefulWidget {
-  const CarouselView(this.movies, {Key? key}) : super(key: key);
+class Carousel extends StatefulWidget {
+  const Carousel(this.movies, this.onTap, {Key? key}) : super(key: key);
   final List<MovieEntity> movies;
+  final void Function(MovieEntity movie, String tag) onTap;
 
   @override
-  State<CarouselView> createState() => _CarouselViewState();
+  State<Carousel> createState() => _CarouselState();
 }
 
-class _CarouselViewState extends State<CarouselView> {
+class _CarouselState extends State<Carousel> {
   PaletteGenerator? paletteGenerator;
   Color? dominante = Colors.white;
   Color? vibrant = Colors.white;
@@ -95,7 +74,11 @@ class _CarouselViewState extends State<CarouselView> {
                 ));
               });
             },
-            itemBuilder: (_, i) => CarouselItem(widget.movies[i]),
+            itemBuilder: (_, i) {
+              final movie = widget.movies[i];
+              final onTap = widget.onTap;
+              return CarouselItem(movie, onTap);
+            },
             itemCount: widget.movies.length,
             viewportFraction: 0.8,
             scale: 0.9,
@@ -107,28 +90,26 @@ class _CarouselViewState extends State<CarouselView> {
 }
 
 class CarouselItem extends StatelessWidget {
-  const CarouselItem(this.movie, {Key? key}) : super(key: key);
+  const CarouselItem(this.movie, this.onTap, {Key? key}) : super(key: key);
 
   final MovieEntity movie;
+  final void Function(MovieEntity movie, String tag) onTap;
 
   @override
   Widget build(BuildContext context) {
     final tag = '${movie.id}now_playing';
+    final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(color: Colors.black38, blurRadius: 13, offset: Offset(0, 10)),
+      ],
+    );
     return GestureDetector(
-      onTap: () {
-        context.read<CastBloc>().add(CastEvent.cast(movie.id.toString()));
-        Navigator.pushNamed(
-          context,
-          MoviePage.routeName,
-          arguments: [movie, tag],
-        );
-      },
-      child: Hero(
-        tag: tag,
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          elevation: 3,
+      onTap: () => onTap(movie, tag),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: DecoratedBox(
+          decoration: decoration,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
