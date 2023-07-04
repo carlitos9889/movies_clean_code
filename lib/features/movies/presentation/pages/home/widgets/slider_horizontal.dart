@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/const_app.dart';
+import 'package:movies/core/helpers/format_number.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
 
 class SliderHorizontal extends StatefulWidget {
@@ -11,9 +12,11 @@ class SliderHorizontal extends StatefulWidget {
     required this.controller,
     required this.listener,
     required this.onTap,
+    required this.subtitle,
   }) : super(key: key);
 
   final String title;
+  final String subtitle;
   final List<MovieEntity> movies;
   final PageController controller;
   final Function listener;
@@ -42,17 +45,15 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
 
   @override
   Widget build(BuildContext context) {
-    final themeText = Theme.of(context).textTheme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.only(left: 30),
-          child: Text(widget.title, style: themeText.headlineMedium),
+        CustomHeader(
+          title: widget.title,
+          subtitle: widget.subtitle,
         ),
         SizedBox(
-          height: 180,
+          height: 230,
           child: PageView.builder(
             physics: const BouncingScrollPhysics(),
             pageSnapping: false,
@@ -66,8 +67,40 @@ class _SliderHorizontalState extends State<SliderHorizontal> {
             },
           ),
         ),
-        const SizedBox(height: 20),
       ],
+    );
+  }
+}
+
+class CustomHeader extends StatelessWidget {
+  const CustomHeader({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeText = Theme.of(context).textTheme;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Row(
+        children: [
+          Text(title, style: themeText.titleLarge),
+          const Spacer(),
+          FilledButton.tonal(
+            onPressed: () {},
+            style: const ButtonStyle(
+              visualDensity: VisualDensity.compact,
+            ),
+            child: Text(subtitle),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -84,16 +117,18 @@ class SliderHorizontalItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tag = movie.id.toString() + title;
+    final textTheme = Theme.of(context).textTheme;
+
     final BoxDecoration decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       boxShadow: const [
         BoxShadow(color: Colors.black38, blurRadius: 13, offset: Offset(0, 10)),
       ],
     );
-    return GestureDetector(
+    final poster = GestureDetector(
       onTap: () => onTap(movie, tag),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 30, right: 10),
+        padding: const EdgeInsets.only(bottom: 5, right: 20),
         child: DecoratedBox(
           decoration: decoration,
           child: Hero(
@@ -111,6 +146,32 @@ class SliderHorizontalItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+    final infoMovie = SizedBox(
+      width: 100,
+      child: Text(
+        movie.title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: textTheme.titleSmall,
+      ),
+    );
+
+    final rating = Row(
+      children: [
+        Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
+        Text(
+          movie.vote_average.toString(),
+          style: textTheme.bodyMedium?.copyWith(color: Colors.yellow.shade800),
+        ),
+        const SizedBox(width: 7),
+        // TODO: Formatear numero
+        Text(FomatNumber().formatNumber(movie.popularity))
+      ],
+    );
+
+    return Container(
+      child: Column(children: [poster, infoMovie, rating]),
     );
   }
 }

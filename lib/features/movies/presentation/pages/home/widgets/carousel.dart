@@ -66,6 +66,7 @@ class _CarouselState extends State<Carousel> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: Swiper(
+              fade: 1,
               curve: Curves.ease,
               onIndexChanged: (i) {
                 setState(() {

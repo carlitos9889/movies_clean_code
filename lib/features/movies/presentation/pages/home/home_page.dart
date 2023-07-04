@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/core/helpers/format_number.dart';
 import 'package:movies/features/movies/domain/entities/movie_entity.dart';
-import 'package:movies/features/movies/presentation/delegate.dart';
 import 'package:movies/features/movies/presentation/manager/cast_bloc/cast_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/nowplaying_bloc/nowplaying_bloc.dart';
 import 'package:movies/features/movies/presentation/manager/popular_bloc/popular_bloc.dart';
@@ -10,6 +10,7 @@ import 'package:movies/features/movies/presentation/manager/upcoming_bloc/upcomi
 import 'package:movies/features/movies/presentation/pages/home/widgets/carousel.dart';
 import 'package:movies/features/movies/presentation/pages/home/widgets/slider_horizontal.dart';
 import 'package:movies/features/movies/presentation/pages/movie/movie_page.dart';
+import 'package:movies/features/movies/presentation/widgets/cutom_navigation_bar.dart';
 import 'package:movies/features/movies/presentation/widgets/loading_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -71,6 +72,7 @@ class HomePage extends StatelessWidget {
                 loading: (_) => const LoadingWidget(height: 200),
                 failure: (_, errorMsg) => Text(errorMsg),
                 success: (movies) => SliderHorizontal(
+                  subtitle: FormatDate().formatDate(DateTime.now()),
                   movies: movies,
                   onTap: onTap,
                   title: 'Popular',
@@ -87,9 +89,10 @@ class HomePage extends StatelessWidget {
                 loading: (_) => const LoadingWidget(height: 200),
                 failure: (_, message) => Text(message),
                 success: (movies) => SliderHorizontal(
+                  subtitle: FormatDate().formatDate(DateTime.now()),
                   movies: movies,
                   onTap: onTap,
-                  title: 'TopRated',
+                  title: 'Top Rated',
                   controller: topRatedController,
                   listener: () => context
                       .read<TopRatedBloc>()
@@ -103,9 +106,10 @@ class HomePage extends StatelessWidget {
                 loading: (_) => const LoadingWidget(height: 200),
                 failure: (_, message) => Text(message),
                 success: (movies) => SliderHorizontal(
+                  subtitle: FormatDate().formatDate(DateTime.now()),
                   movies: movies,
                   onTap: onTap,
-                  title: 'UpComing',
+                  title: 'Up Coming',
                   controller: upComingController,
                   listener: () => context
                       .read<UpcomingBloc>()
@@ -117,6 +121,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const CustomNavigationBar(),
     );
   }
 }

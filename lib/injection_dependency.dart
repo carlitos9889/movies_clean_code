@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies/core/helpers/format_number.dart';
 import 'package:movies/features/movies/data/data_sources/movie_local_data_source.dart';
 import 'package:movies/features/movies/data/data_sources/movie_local_data_source_impl.dart';
 import 'package:movies/features/movies/data/data_sources/movie_remote_data_source.dart';
@@ -86,6 +87,15 @@ Future<void> init() async {
   sl.registerLazySingleton<http.Client>(
     () => client,
   );
+
+  sl.registerLazySingleton<FomatNumber>(() {
+    return FomatNumber();
+  });
+
+  sl.registerLazySingleton<FormatDate>(() {
+    return FormatDate();
+  });
+
   final preferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton<SharedPreferences>(() => preferences);
 }
